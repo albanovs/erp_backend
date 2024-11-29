@@ -1,0 +1,50 @@
+import mongoose from "mongoose";
+
+const OtchetSchema = new mongoose.Schema({
+    _id: { type: String, default: () => new mongoose.Types.ObjectId() },
+    sm: { type: Number, default: 0 },
+    date: { type: Date, default: Date.now },
+    sity: { type: String, default: "" },
+    admin: { type: String, default: "" },
+    buyer: { type: String, default: "" },
+    comPersent100: { type: Number, default: 0 },
+    comPersent2: { type: Number, default: 0 },
+    comPersent3: { type: Number, default: 0 },
+    comPersent4: { type: Number, default: 0 },
+    indexPersent100: { type: Number, default: 0 },
+    indexPersent2: { type: Number, default: 0 },
+    indexPersent3: { type: Number, default: 0 },
+    indexPersent4: { type: Number, default: 0 },
+    uhod: { type: Number, default: 0 },
+    prihod: { type: Number, default: 0 },
+    itog: { type: Number, default: 0 },
+    itogIndex: { type: Number, default: 0 },
+});
+
+const ItogSchema = new mongoose.Schema({
+    _id: { type: String, default: () => new mongoose.Types.ObjectId() },
+    date: { type: Date, default: Date.now },
+    ros1: { type: String, default: "" },
+    ros2: { type: String, default: "" },
+    ros3: { type: String, default: "" },
+    ros4: { type: String, default: "" },
+    ros5: { type: String, default: "" },
+    ros6: { type: String, default: "" },
+    ros7: { type: String, default: "" },
+    sum1: { type: Number, default: 0 },
+    sum2: { type: Number, default: 0 },
+    sum3: { type: Number, default: 0 },
+    sum4: { type: Number, default: 0 },
+    sum5: { type: Number, default: 0 },
+    sum6: { type: Number, default: 0 },
+    sum7: { type: Number, default: 0 },
+    upak: { type: Number, default: 0 },
+    allItogIndex: { type: Number, default: 0 },
+    allItog: { type: Number, default: 0 },
+    allItogUhod: { type: Number, default: 0 },
+    allItogPrihod: { type: Number, default: 0 },
+    percentRuk: { type: Number, default: 0 },
+    itogs: { type: Number, default: 0 },
+});
+
+export { OtchetSchema, ItogSchema };
