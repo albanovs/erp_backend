@@ -127,16 +127,13 @@ export const createUniversalData = async (req, res, model, controller, curatorNa
         }
 
         await data.save();
-
-        if (!res.headersSent) {
-            await controller.deleteOtchetBeta(req, res);
-            await controller.createOtchet(req, res);
-            res.status(201).json({ message: "Данные успешно сохранены" });
-        }
+        await controller.deleteOtchetBeta(req, res);
+        await controller.createDefaultDocument(req, res);
     } catch (error) {
         console.error('Ошибка при сохранении данных:', error);
+
         if (!res.headersSent) {
-            res.status(500).send('Ошибка при сохранении данных');
+            return res.status(500).send('Ошибка при сохранении данных');
         }
     }
 };

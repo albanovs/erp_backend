@@ -21,10 +21,16 @@ const updateOtchetBeta = (req, res) => {
     updateDocument(req, res, MonacoOtchetBetaModel, "otchet", updates);
 };
 
+const updateItogBeta = (req, res) => {
+    const updates = req.body;
+    updateDocument(req, res, MonacoOtchetBetaModel, "itog", updates);
+};
+
 export default {
     createDefaultDocument,
     addSlotOtchet,
     getOtchetBeta,
     deleteOtchetBeta,
-    updateOtchetBeta
+    updateOtchetBeta,
+    updateItogBeta
 };

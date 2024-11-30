@@ -1,7 +1,5 @@
-import { isCurrentMonthAndYear, isWithinLast45Days } from "../calculate-logist/utils/utils.mjs";
 import cron from 'node-cron';
-import AdminLogistRaiting from "../../models/adminlogistraiting/adminlogistraiting.mjs";
-import { calculateMatchesLogist, calculateSumComPersent100 } from "./utils/utils.mjs";
+import { calculateMatchesLogist, calculateSumComPersent100, isCurrentMonthAndYear } from "./utils/utils.mjs";
 import { LeaderDataModel, MonacoDataModel, TuranDataModel, LibertyDataModel } from '../../models/data_otchet/data.mjs'
 import LogistAndAdmin from "../../models/simcard/logist_admin.mjs";
 
@@ -25,16 +23,16 @@ async function calculateAndCacheData() {
         adminAndLogist.forEach(item => {
             let filteredItems = [];
             switch (item.team) {
-                case 'leader':
+                case 'Лидер':
                     filteredItems = leader.filter(leaderItem => isCurrentMonthAndYear(leaderItem.date));
                     break;
-                case 'monaco':
+                case 'Монако':
                     filteredItems = monaco.filter(monacoItem => isCurrentMonthAndYear(monacoItem.date));
                     break;
-                case 'turan':
+                case 'Туран':
                     filteredItems = turan.filter(turanItem => isCurrentMonthAndYear(turanItem.date));
                     break;
-                case 'liberty':
+                case 'Liberty':
                     filteredItems = liberty.filter(libertyItem => isCurrentMonthAndYear(libertyItem.date));
                     break;
                 default:
@@ -77,24 +75,6 @@ async function calculateAndCacheData() {
     }
 }
 
-async function saveAdminLogistRaiting() {
-    try {
-        const result = await calculateAndCacheData();
-        if (result) {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = today.getMonth() + 1;
-            const dateString = `${year}-${month}`;
-            const dataToSave = {
-                datas: dateString,
-                adminandlogist: result
-            };
-            await AdminLogistRaiting.create(dataToSave);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 async function calculateAndCacheDataWrapper() {
     const result = await calculateAndCacheData();
@@ -123,4 +103,4 @@ const calcRaintingLogistAdmin = async (req, res) => {
     }
 };
 
-export default { calcRaintingLogistAdmin, saveAdminLogistRaiting };
+export default { calcRaintingLogistAdmin };

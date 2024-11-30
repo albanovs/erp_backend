@@ -3,16 +3,8 @@ import { connect } from './db/db.mjs';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import leader_manager from './routers/simcard/manager/leader_manager_sim.mjs'
-import turan_manager from './routers/simcard/manager/turan_manager_sim.mjs'
-import monaco_manager from './routers/simcard/manager/monaco_manager_sim.mjs'
-import liberty_manager from './routers/simcard/manager/liberty_manager_sim.mjs'
-
-import leader_admin from './routers/simcard/admin/leader_admin_sim.mjs'
-import turan_admin from './routers/simcard/admin/turan_admin_sim.mjs'
-import monaco_admin from './routers/simcard/admin/monaco_admin_sim.mjs'
-import liberty_admin from './routers/simcard/admin/liberty_admin_sim.mjs'
-
+import User from './models/auth/user.mjs';
+import bcrypt from 'bcrypt';
 
 const app = express();
 app.use(cors());
@@ -20,14 +12,49 @@ app.use(express.json());
 app.use(bodyParser.json());
 connect()
 
-app.use('/leader-manager', leader_manager);
-app.use('/leader-admin', leader_admin);
-app.use('/turan-manager', turan_manager);
-app.use('/turan-admin', turan_admin);
-app.use('/monaco-manager', monaco_manager);
-app.use('/monaco-admin', monaco_admin);
-app.use('/liberty-manager', liberty_manager);
-app.use('/liberty-admin', liberty_admin);
+// Старшие менеджеры и байеры SIM
+
+import leader_manager from './routers/simcard/manager/leader_manager_sim.mjs'
+import turan_manager from './routers/simcard/manager/turan_manager_sim.mjs'
+import monaco_manager from './routers/simcard/manager/monaco_manager_sim.mjs'
+import liberty_manager from './routers/simcard/manager/liberty_manager_sim.mjs'
+
+app.use('/monaco/manager', monaco_manager);
+app.use('/liberty/manager', liberty_manager);
+app.use('/turan/manager', turan_manager);
+app.use('/leader/manager', leader_manager);
+
+// Старшие админы и помощники старших админов SIM
+
+import leader_admin from './routers/simcard/admin/leader_admin_sim.mjs'
+import turan_admin from './routers/simcard/admin/turan_admin_sim.mjs'
+import monaco_admin from './routers/simcard/admin/monaco_admin_sim.mjs'
+import liberty_admin from './routers/simcard/admin/liberty_admin_sim.mjs'
+
+app.use('/turan/admin', turan_admin);
+app.use('/leader/admin', leader_admin);
+app.use('/monaco/admin', monaco_admin);
+app.use('/liberty/admin', liberty_admin);
+
+// Создание ежедневных отчетов
+
+import leader_otchet from './routers/otchet/leader.mjs'
+import turan_otchet from './routers/otchet/turan.mjs'
+import monaco_otchet from './routers/otchet/monaco.mjs'
+import liberty_otchet from './routers/otchet/liberty.mjs'
+
+app.use('/turan/otchet', turan_otchet);
+app.use('/leader/otchet', leader_otchet);
+app.use('/monaco/otchet', monaco_otchet);
+app.use('/liberty/otchet', liberty_otchet);
+
+// Рейтинг, статистика и прочее
+
+import rating from './routers/raiting/manager.mjs'
+import admin_logist from './routers/raiting/logist_admin.mjs'
+
+app.use('/raiting-manager', rating);
+app.use('/', admin_logist);
 
 const PORT = 4000;
 
@@ -37,11 +64,7 @@ app.listen(PORT, () => {
 
 
 
-
-
-
-
-
+// Интсаграм телеграм слоты
 
 
 app.post("/instagam-slot", async (req, res) => {
@@ -163,5 +186,56 @@ app.get("/test/telegramSlot", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Что-то пошло не так" });
+    }
+});
+
+
+// авторизация и регистрация
+
+app.post("/register", async (req, res) => {
+    try {
+        const { username, password, role } = req.body;
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: "Пользователь с таким именем уже существует" });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ username, password: hashedPassword, role });
+        await user.save();
+        res.status(200).json({ message: "Пользователь успешно зарегистрирован" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Что-то пошло не так" });
+    }
+});
+
+app.post("/login", async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(401).json({ error: "Пользователь не найден" });
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Неверный пароль" });
+        }
+
+        const roles = await User.findOne({ username })
+        res.status(200).json({ roles });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Что-то пошло не так" });
+    }
+});
+
+app.delete('/login/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await User.findByIdAndDelete(id);
+        res.status(200).json({ message: "Пользователь успешно удален" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Что-то пошло не так" });
     }
 });

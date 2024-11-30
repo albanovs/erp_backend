@@ -21,10 +21,16 @@ const updateOtchetBeta = (req, res) => {
     updateDocument(req, res, LibertyOtchetBetaModel, "otchet", updates);
 };
 
+const updateItogBeta = (req, res) => {
+    const updates = req.body;
+    updateDocument(req, res, LibertyOtchetBetaModel, "itog", updates);
+};
+
 export default {
     createDefaultDocument,
     addSlotOtchet,
     getOtchetBeta,
     deleteOtchetBeta,
-    updateOtchetBeta
+    updateOtchetBeta,
+    updateItogBeta
 };
