@@ -165,12 +165,12 @@ const updateSimcard = async (req, res, Model) => {
 
 const upDateCurator = async (req, res, Model) => {
     const { id } = req.params;
-    const { field, value } = req.body;
+    const { curator } = req.body;
 
     try {
         const updatedDocument = await Model.findOneAndUpdate(
             { _id: id },
-            { [field]: value },
+            { curator },
             { new: true }
         );
 

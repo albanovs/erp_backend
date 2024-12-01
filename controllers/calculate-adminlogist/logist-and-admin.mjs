@@ -1,5 +1,6 @@
 import cron from 'node-cron'
 import LogistAndAdmin from '../../models/simcard/logist_admin.mjs'
+import { create } from 'html-pdf';
 
 const CreateTableSim = async (req, res) => {
     try {
@@ -9,8 +10,8 @@ const CreateTableSim = async (req, res) => {
         const year = currentDate.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
         const newData = new LogistAndAdmin({
-            team: '',
-            select: "logist",
+            team: 'Liberty',
+            select: "admin",
             slot: [{
                 data_register: formattedDate,
                 num: 1,
@@ -28,12 +29,13 @@ const CreateTableSim = async (req, res) => {
             }]
         })
         await newData.save()
-        res.status(200).json({ massage: `${JSON.stringify(newData)}` })
+        // res.status(200).json({ massage: `${JSON.stringify(newData)}` })
+        console.log('Таблица создана');
+        
     } catch (error) {
-        res.status(500).json({ massage: `${JSON.stringify(error)}` })
+        // res.status(500).json({ massage: `${JSON.stringify(error)}` })
     }
 }
-
 
 const updateSimLog = async (req, res) => {
     try {

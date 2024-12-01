@@ -31,10 +31,16 @@ import turan_admin from './routers/simcard/admin/turan_admin_sim.mjs'
 import monaco_admin from './routers/simcard/admin/monaco_admin_sim.mjs'
 import liberty_admin from './routers/simcard/admin/liberty_admin_sim.mjs'
 
+// Админы логисты SIM
+
+import sim_admin_logist from './routers/simcard/logistandadmin/logistadmin.mjs'
+
 app.use('/turan/admin', turan_admin);
 app.use('/leader/admin', leader_admin);
 app.use('/monaco/admin', monaco_admin);
 app.use('/liberty/admin', liberty_admin);
+
+app.use('/', sim_admin_logist);
 
 // Создание ежедневных отчетов
 

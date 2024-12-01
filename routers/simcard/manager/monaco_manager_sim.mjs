@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/create", (req, res) => simController.createSimTable(req, res, SimcardMonacoManager));
 router.post("/add-slot", (req, res) => simController.addSlot(req, res, SimcardMonacoManager));
-router.patch("/update", (req, res) => simController.editSimTable(req, res, SimcardMonacoManager, 'Монако'));
+router.patch("/update/:id", (req, res) => simController.editSimTable(req, res, SimcardMonacoManager, 'Монако'));
 router.get("/data", (req, res) => simController.getSimTable(req, res, SimcardMonacoManager));
 router.patch("/updatedays", (req, res) => simController.updateSimcard(req, res, SimcardMonacoManager));
 router.patch("/curator/:id", (req, res) => simController.upDateCurator(req, res, SimcardMonacoManager));
