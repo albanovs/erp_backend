@@ -30,6 +30,7 @@ import leader_admin from './routers/simcard/admin/leader_admin_sim.mjs'
 import turan_admin from './routers/simcard/admin/turan_admin_sim.mjs'
 import monaco_admin from './routers/simcard/admin/monaco_admin_sim.mjs'
 import liberty_admin from './routers/simcard/admin/liberty_admin_sim.mjs'
+import ilyas_admin from './routers/simcard/admin/ilyas_admin_sim.mjs'
 
 // Админы логисты SIM
 
@@ -39,6 +40,7 @@ app.use('/turan/admin', turan_admin);
 app.use('/leader/admin', leader_admin);
 app.use('/monaco/admin', monaco_admin);
 app.use('/liberty/admin', liberty_admin);
+app.use('/ilyas/admin', ilyas_admin);
 
 app.use('/', sim_admin_logist);
 
