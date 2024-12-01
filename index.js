@@ -18,11 +18,13 @@ import leader_manager from './routers/simcard/manager/leader_manager_sim.mjs'
 import turan_manager from './routers/simcard/manager/turan_manager_sim.mjs'
 import monaco_manager from './routers/simcard/manager/monaco_manager_sim.mjs'
 import liberty_manager from './routers/simcard/manager/liberty_manager_sim.mjs'
+import ilyas_manager from './routers/simcard/manager/ilyas_manager_sim.mjs'
 
 app.use('/monaco/manager', monaco_manager);
 app.use('/liberty/manager', liberty_manager);
 app.use('/turan/manager', turan_manager);
 app.use('/leader/manager', leader_manager);
+app.use('/ilyas/manager', ilyas_manager);
 
 // Старшие админы и помощники старших админов SIM
 
@@ -50,11 +52,13 @@ import leader_otchet from './routers/otchet/leader.mjs'
 import turan_otchet from './routers/otchet/turan.mjs'
 import monaco_otchet from './routers/otchet/monaco.mjs'
 import liberty_otchet from './routers/otchet/liberty.mjs'
+import ilyas_otchet from './routers/otchet/ilyas.mjs'
 
 app.use('/turan/otchet', turan_otchet);
 app.use('/leader/otchet', leader_otchet);
 app.use('/monaco/otchet', monaco_otchet);
 app.use('/liberty/otchet', liberty_otchet);
+app.use('/ilyas/otchet', ilyas_otchet);
 
 // Рейтинг, статистика и прочее
 
