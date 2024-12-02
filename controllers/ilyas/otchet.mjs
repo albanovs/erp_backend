@@ -4,6 +4,7 @@ import { addSlot, getData, deleteData, updateDocument, createDefaultDocument as 
 const createDefaultDocument = (req, res) => {
     CreateOtchet(req, res, IlyasOtchetBetaModel);
 }
+
 const addSlotOtchet = (req, res) => {
     addSlot(req, res, IlyasOtchetBetaModel, 'otchet');
 };

@@ -64,9 +64,11 @@ app.use('/ilyas/otchet', ilyas_otchet);
 
 import rating from './routers/raiting/manager.mjs'
 import admin_logist from './routers/raiting/logist_admin.mjs'
+import fulfilment from './routers/fulfilment/fulfilment.mjs'
 
 app.use('/raiting-manager', rating);
 app.use('/', admin_logist);
+app.use('/', fulfilment);
 
 const PORT = 4000;
 
@@ -251,3 +253,5 @@ app.delete('/login/:id', async (req, res) => {
         res.status(500).json({ message: "Что-то пошло не так" });
     }
 });
+
+
